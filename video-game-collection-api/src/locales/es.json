@@ -1,0 +1,19 @@
+{
+  "welcome": "Bienvenido a la API de recopilación de videojuegos",
+  "games": {
+    "list_success": "Juegos recuperados exitosamente.",
+    "get_success": "Juego recuperado exitosamente.",
+    "create_success": "Juego creado exitosamente.",
+    "update_success": "Juego actualizado exitosamente.",
+    "delete_success": "Juego eliminado exitosamente.",
+    "list": "Lista de juegos"
+  },
+  "errors": {
+    "internal_server_error": "Ocurrió un error interno del servidor.",
+    "game_not_found": "Juego no encontrado.",
+    "validation_error": "Error de validación.",
+    "missing_fields": "Faltan campos obligatorios.",
+    "bad_request": "Solicitud incorrecta.",
+    "not_acceptable": "Formato no aceptado."
+  }
+}

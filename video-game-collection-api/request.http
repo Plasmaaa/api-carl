@@ -1,0 +1,329 @@
+### Video Game Collection API - HTTP Requests
+### Base URL: http://localhost:3000
+### Supported languages: en, fr, es
+
+### ====================
+### HEALTH CHECK
+### ====================
+
+GET http://localhost:3000/health
+Accept-Language: en
+
+###
+
+GET http://localhost:3000/health?lang=fr
+Accept-Language: fr
+
+###
+
+### ====================
+### CREATE GAME (POST) - 201
+### ====================
+
+### Create a new game - English
+POST http://localhost:3000/api/v1/games
+Content-Type: application/json
+Accept-Language: en
+
+{
+  "title": "The Legend of Zelda: Breath of the Wild",
+  "genre": "Action-Adventure",
+  "releaseDate": "2017-03-03",
+  "platform": "Nintendo Switch"
+}
+
+###
+
+### Create a new game - French
+POST http://localhost:3000/api/v1/games
+Content-Type: application/json
+Accept-Language: fr
+
+{
+  "title": "Elden Ring",
+  "genre": "Action RPG",
+  "releaseDate": "2022-02-25",
+  "platform": "PC"
+}
+
+###
+
+### Create a new game - Spanish
+POST http://localhost:3000/api/v1/games
+Content-Type: application/json
+Accept-Language: es
+
+{
+  "title": "Cyberpunk 2077",
+  "genre": "Action RPG",
+  "releaseDate": "2020-12-10",
+  "platform": "PC"
+}
+
+###
+
+### Create another game for testing
+POST http://localhost:3000/api/v1/games
+Content-Type: application/json
+
+{
+  "title": "Super Mario 64",
+  "genre": "Platformer",
+  "releaseDate": "1996-06-23",
+  "platform": "Nintendo Switch"
+}
+
+###
+
+### Create validation error test (missing required fields)
+POST http://localhost:3000/api/v1/games
+Content-Type: application/json
+
+{
+  "title": "Incomplete Game"
+}
+
+###
+
+### ====================
+### GET ALL GAMES (GET) - 200
+### ====================
+
+### Get all games in JSON format
+GET http://localhost:3000/api/v1/games
+Accept: application/json
+Accept-Language: en
+
+###
+
+### Get all games in XML format
+GET http://localhost:3000/api/v1/games
+Accept: application/xml
+Accept-Language: en
+
+###
+
+### Get all games in YAML format
+GET http://localhost:3000/api/v1/games
+Accept: application/yaml
+Accept-Language: fr
+
+###
+
+### Get all games with French language
+GET http://localhost:3000/api/v1/games?lang=fr
+Accept: application/json
+
+###
+
+### ====================
+### GET SINGLE GAME (GET) - 200, 404
+### ====================
+
+### Get a specific game - ID 1
+GET http://localhost:3000/api/v1/games/1
+Accept: application/json
+Accept-Language: en
+
+###
+
+### Get a specific game in XML
+GET http://localhost:3000/api/v1/games/1
+Accept: application/xml
+
+###
+
+### Get a specific game in YAML
+GET http://localhost:3000/api/v1/games/1
+Accept: application/yaml
+
+###
+
+### Get non-existent game (404)
+GET http://localhost:3000/api/v1/games/999
+Accept: application/json
+
+###
+
+### ====================
+### UPDATE GAME (PATCH) - 200, 404
+### ====================
+
+### Partial update - Update only title
+PATCH http://localhost:3000/api/v1/games/1
+Content-Type: application/json
+Accept-Language: en
+
+{
+  "title": "The Legend of Zelda: Breath of the Wild (Updated)"
+}
+
+###
+
+### Partial update - Update genre and platform
+PATCH http://localhost:3000/api/v1/games/2
+Content-Type: application/json
+Accept-Language: fr
+
+{
+  "genre": "Fantasy RPG",
+  "platform": "PlayStation"
+}
+
+###
+
+### Update non-existent game (404)
+PATCH http://localhost:3000/api/v1/games/999
+Content-Type: application/json
+
+{
+  "title": "Non-existent Game"
+}
+
+###
+
+### ====================
+### DELETE GAME (DELETE) - 204, 404
+### ====================
+
+### Delete a game (no response body expected - 204)
+DELETE http://localhost:3000/api/v1/games/3
+
+###
+
+### Delete non-existent game (404)
+DELETE http://localhost:3000/api/v1/games/999
+
+###
+
+### ====================
+### API VERSIONING - V2
+### ====================
+
+### Get all games from v2
+GET http://localhost:3000/api/v2/games
+Accept: application/json
+
+###
+
+### Create game in v2
+POST http://localhost:3000/api/v2/games
+Content-Type: application/json
+
+{
+  "title": "Halo Infinite",
+  "genre": "First-Person Shooter",
+  "releaseDate": "2021-12-08",
+  "platform": "Xbox"
+}
+
+###
+
+### Get game from v2
+GET http://localhost:3000/api/v2/games/1
+Accept: application/json
+
+###
+
+### Update game in v2
+PATCH http://localhost:3000/api/v2/games/1
+Content-Type: application/json
+
+{
+  "platform": "Xbox"
+}
+
+###
+
+### Delete game from v2
+DELETE http://localhost:3000/api/v2/games/4
+
+###
+
+### ====================
+### CONTENT NEGOTIATION TESTS
+### ====================
+
+### JSON response
+GET http://localhost:3000/api/v1/games/1
+Accept: application/json
+
+###
+
+### XML response
+GET http://localhost:3000/api/v1/games/1
+Accept: application/xml
+
+###
+
+### YAML response
+GET http://localhost:3000/api/v1/games/1
+Accept: application/yaml
+
+###
+
+### ====================
+### i18n (Internationalization) TESTS
+### ====================
+
+### English locale
+GET http://localhost:3000/api/v1/games
+Accept: application/json
+Accept-Language: en
+
+###
+
+### French locale
+GET http://localhost:3000/api/v1/games
+Accept: application/json
+Accept-Language: fr
+
+###
+
+### Spanish locale
+GET http://localhost:3000/api/v1/games
+Accept: application/json
+Accept-Language: es
+
+###
+
+### ====================
+### ERROR HANDLING TESTS
+### ====================
+
+### Not Found - 404
+GET http://localhost:3000/api/v1/games/999999
+
+###
+
+### Validation Error - 400 (Missing fields)
+POST http://localhost:3000/api/v1/games
+Content-Type: application/json
+
+{
+  "title": "Missing Required Fields"
+}
+
+###
+
+### Validation Error - Invalid platform
+POST http://localhost:3000/api/v1/games
+Content-Type: application/json
+
+{
+  "title": "Invalid Platform Game",
+  "genre": "Action",
+  "releaseDate": "2023-01-01",
+  "platform": "InvalidPlatform"
+}
+
+###
+
+### ====================
+### HATEOAS LINKS TEST
+### ====================
+
+### Get game with HATEOAS links
+GET http://localhost:3000/api/v1/games/1
+Accept: application/json
+Accept-Language: en

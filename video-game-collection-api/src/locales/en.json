@@ -1,0 +1,25 @@
+{
+  "welcome": "Welcome to the Video Game Collection API",
+  "games": {
+    "list_success": "Games retrieved successfully.",
+    "get_success": "Game retrieved successfully.",
+    "create_success": "Game created successfully.",
+    "update_success": "Game updated successfully.",
+    "delete_success": "Game deleted successfully.",
+    "list": "List of games"
+  },
+  "errors": {
+    "internal_server_error": "An internal server error occurred.",
+    "game_not_found": "Game not found.",
+    "validation_error": "Validation error.",
+    "missing_fields": "Missing required fields.",
+    "bad_request": "Bad request.",
+    "not_acceptable": "Not acceptable format."
+  }
+}
+  "api": {
+    "version": "API Version",
+    "v1": "Version 1",
+    "v2": "Version 2"
+  }
+}

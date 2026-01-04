@@ -1,0 +1,19 @@
+{
+  "welcome": "Bienvenue dans l'API de gestion de collection de jeux vidéo",
+  "games": {
+    "list_success": "Jeux récupérés avec succès.",
+    "get_success": "Jeu récupéré avec succès.",
+    "create_success": "Jeu créé avec succès.",
+    "update_success": "Jeu mis à jour avec succès.",
+    "delete_success": "Jeu supprimé avec succès.",
+    "list": "Liste des jeux"
+  },
+  "errors": {
+    "internal_server_error": "Erreur interne du serveur.",
+    "game_not_found": "Jeu non trouvé.",
+    "validation_error": "Erreur de validation.",
+    "missing_fields": "Champs obligatoires manquants.",
+    "bad_request": "Requête invalide.",
+    "not_acceptable": "Format non accepté."
+  }
+}
