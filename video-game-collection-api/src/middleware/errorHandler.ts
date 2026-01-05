@@ -1,5 +1,11 @@
+/**
+ * Global Error Handler Middleware
+ * Catches and formats all errors with i18n support
+ */
+
 import { Request, Response, NextFunction } from 'express';
 import i18next from 'i18next';
+import { sendFormatted } from '../utils/formatters';
 
 export interface ApiError extends Error {
     status?: number;
@@ -13,16 +19,23 @@ const errorHandler = (err: ApiError, req: Request, res: Response, next: NextFunc
     const code = err.code || 'INTERNAL_ERROR';
     const message = err.message || i18next.t('errors.internal_server_error');
 
-    res.status(status).json({
-        error: {
-            status,
-            code,
-            message,
-            timestamp: new Date().toISOString(),
+    res.status(status);
+    const format = (req.query.format as string) || 'json';
+    sendFormatted(
+        res,
+        {
+            error: {
+                status,
+                code,
+                message,
+                timestamp: new Date().toISOString(),
+            },
+            path: req.path,
+            method: req.method,
         },
-        path: req.path,
-        method: req.method,
-    });
+        format,
+        'error'
+    );
 };
 
 export default errorHandler;

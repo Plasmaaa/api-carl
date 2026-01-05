@@ -1,9 +1,16 @@
-import { Request, Response, NextFunction } from 'express';
+/**
+ * Validation utilities for game resources
+ * Provides validation for game creation and updates
+ */
 
 // Platform whitelist
 export const VALID_PLATFORMS = ['PlayStation', 'Xbox', 'Nintendo Switch', 'PC', 'Mobile', 'Web'];
 
-// Validate game creation payload
+/**
+ * Validate game creation payload
+ * @param data - The game data to validate
+ * @returns Validation result with errors if any
+ */
 export const validateGameCreation = (data: any): { valid: boolean; errors: string[] } => {
     const errors: string[] = [];
 
@@ -23,13 +30,23 @@ export const validateGameCreation = (data: any): { valid: boolean; errors: strin
         errors.push(`Platform is required and must be one of: ${VALID_PLATFORMS.join(', ')}`);
     }
 
+    if (data.studioId !== undefined && data.studioId !== null) {
+        if (typeof data.studioId !== 'number' || data.studioId <= 0) {
+            errors.push('studioId must be a positive number when provided');
+        }
+    }
+
     return {
         valid: errors.length === 0,
         errors,
     };
 };
 
-// Validate game update payload (partial)
+/**
+ * Validate game update payload (partial)
+ * @param data - The game data to validate
+ * @returns Validation result with errors if any
+ */
 export const validateGameUpdate = (data: any): { valid: boolean; errors: string[] } => {
     const errors: string[] = [];
 
@@ -57,20 +74,25 @@ export const validateGameUpdate = (data: any): { valid: boolean; errors: string[
         }
     }
 
+    if (data.hasOwnProperty('studioId')) {
+        if (data.studioId !== null && (typeof data.studioId !== 'number' || data.studioId <= 0)) {
+            errors.push('studioId must be a positive number or null');
+        }
+    }
+
     return {
         valid: errors.length === 0,
         errors,
     };
 };
 
-// Helper function to validate ISO date
+/**
+ * Helper function to validate ISO date
+ * @param dateString - The date string to validate
+ * @returns True if valid date, false otherwise
+ */
 export const isValidDate = (dateString: string): boolean => {
     if (typeof dateString !== 'string') return false;
     const date = new Date(dateString);
     return !isNaN(date.getTime());
-};
-
-// Express middleware for validation errors
-export const validationErrorHandler = (req: Request, res: Response, next: NextFunction) => {
-    next();
 };

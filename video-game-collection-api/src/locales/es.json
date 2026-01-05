@@ -15,5 +15,10 @@
     "missing_fields": "Faltan campos obligatorios.",
     "bad_request": "Solicitud incorrecta.",
     "not_acceptable": "Formato no aceptado."
+  },
+  "api": {
+    "version": "Versión de API",
+    "v1": "Versión 1",
+    "v2": "Versión 2"
   }
 }

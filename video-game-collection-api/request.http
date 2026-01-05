@@ -1,26 +1,26 @@
-### Video Game Collection API - HTTP Requests
-### Base URL: http://localhost:3000
-### Supported languages: en, fr, es
+### API Collection de Jeux Vidéo
+### URL de base : http://localhost:3000
+### Langues supportées : en, fr, es
 
-### ====================
-### HEALTH CHECK
-### ====================
+### SANTÉ DU SERVEUR
 
+### Vérification en anglais
 GET http://localhost:3000/health
 Accept-Language: en
 
 ###
 
-GET http://localhost:3000/health?lang=fr
+### Vérification en français
+GET http://localhost:3000/health
 Accept-Language: fr
 
 ###
 
-### ====================
-### CREATE GAME (POST) - 201
-### ====================
 
-### Create a new game - English
+### CRÉER UN JEU (POST) - 201
+
+
+### Créer un jeu - Réponse en anglais
 POST http://localhost:3000/api/v1/games
 Content-Type: application/json
 Accept-Language: en
@@ -34,7 +34,7 @@ Accept-Language: en
 
 ###
 
-### Create a new game - French
+### Créer un jeu - Réponse en français
 POST http://localhost:3000/api/v1/games
 Content-Type: application/json
 Accept-Language: fr
@@ -48,7 +48,7 @@ Accept-Language: fr
 
 ###
 
-### Create a new game - Spanish
+### Créer un jeu - Réponse en espagnol
 POST http://localhost:3000/api/v1/games
 Content-Type: application/json
 Accept-Language: es
@@ -57,110 +57,79 @@ Accept-Language: es
   "title": "Cyberpunk 2077",
   "genre": "Action RPG",
   "releaseDate": "2020-12-10",
-  "platform": "PC"
+  "platform": "PlayStation"
 }
 
 ###
 
-### Create another game for testing
+### Test d'erreur de validation (champs manquants)
 POST http://localhost:3000/api/v1/games
 Content-Type: application/json
 
 {
-  "title": "Super Mario 64",
-  "genre": "Platformer",
-  "releaseDate": "1996-06-23",
-  "platform": "Nintendo Switch"
+  "title": "Jeu Incomplet"
 }
 
-###
+### LISTER TOUS LES JEUX (GET) - 200
 
-### Create validation error test (missing required fields)
-POST http://localhost:3000/api/v1/games
-Content-Type: application/json
 
-{
-  "title": "Incomplete Game"
-}
-
-###
-
-### ====================
-### GET ALL GAMES (GET) - 200
-### ====================
-
-### Get all games in JSON format
+### Format JSON (par défaut)
 GET http://localhost:3000/api/v1/games
-Accept: application/json
-Accept-Language: en
-
-###
-
-### Get all games in XML format
-GET http://localhost:3000/api/v1/games
-Accept: application/xml
-Accept-Language: en
-
-###
-
-### Get all games in YAML format
-GET http://localhost:3000/api/v1/games
-Accept: application/yaml
 Accept-Language: fr
 
 ###
 
-### Get all games with French language
-GET http://localhost:3000/api/v1/games?lang=fr
-Accept: application/json
+### Format XML
+GET http://localhost:3000/api/v1/games
+?format=xml
 
 ###
 
-### ====================
-### GET SINGLE GAME (GET) - 200, 404
-### ====================
+### Format YAML
+GET http://localhost:3000/api/v1/games?format=yaml
 
-### Get a specific game - ID 1
+###
+
+### OBTENIR UN JEU SPÉCIFIQUE (GET) - 200, 404
+
+
+### Récupérer le jeu #1
 GET http://localhost:3000/api/v1/games/1
-Accept: application/json
-Accept-Language: en
+Accept-Language: fr
 
 ###
 
-### Get a specific game in XML
-GET http://localhost:3000/api/v1/games/1
-Accept: application/xml
+### Format XML
+GET http://localhost:3000/api/v1/games/1?format=xml
 
 ###
 
-### Get a specific game in YAML
-GET http://localhost:3000/api/v1/games/1
-Accept: application/yaml
+### Format YAML
+GET http://localhost:3000/api/v1/games/1?format=yaml
 
 ###
 
-### Get non-existent game (404)
+### Jeu inexistant (doit retourner 404)
 GET http://localhost:3000/api/v1/games/999
-Accept: application/json
 
 ###
 
-### ====================
-### UPDATE GAME (PATCH) - 200, 404
-### ====================
 
-### Partial update - Update only title
+### MODIFIER UN JEU (PATCH) - 200, 404
+
+
+### Modification partielle - titre uniquement
 PATCH http://localhost:3000/api/v1/games/1
 Content-Type: application/json
-Accept-Language: en
+Accept-Language: fr
 
 {
-  "title": "The Legend of Zelda: Breath of the Wild (Updated)"
+  "title": "The Legend of Zelda: Breath of the Wild (Édition Mise à Jour)"
 }
 
 ###
 
-### Partial update - Update genre and platform
+### Modification partielle - genre et plateforme
 PATCH http://localhost:3000/api/v1/games/2
 Content-Type: application/json
 Accept-Language: fr
@@ -172,131 +141,125 @@ Accept-Language: fr
 
 ###
 
-### Update non-existent game (404)
+### Modification d'un jeu inexistant (404)
 PATCH http://localhost:3000/api/v1/games/999
 Content-Type: application/json
 
 {
-  "title": "Non-existent Game"
+  "title": "Jeu Inexistant"
 }
 
 ###
 
-### ====================
-### DELETE GAME (DELETE) - 204, 404
-### ====================
 
-### Delete a game (no response body expected - 204)
+### SUPPRIMER UN JEU (DELETE) - 204, 404
+
+
+### Supprimer un jeu (pas de réponse - 204)
 DELETE http://localhost:3000/api/v1/games/3
 
 ###
 
-### Delete non-existent game (404)
+### Supprimer un jeu inexistant (404)
 DELETE http://localhost:3000/api/v1/games/999
 
 ###
 
-### ====================
-### API VERSIONING - V2
-### ====================
+### =====================================
+### VERSIONING API - V2
+### =====================================
 
-### Get all games from v2
+### Lister tous les jeux (v2)
 GET http://localhost:3000/api/v2/games
-Accept: application/json
+Accept-Language: fr
 
 ###
 
-### Create game in v2
+### Créer un jeu (v2)
 POST http://localhost:3000/api/v2/games
 Content-Type: application/json
 
 {
   "title": "Halo Infinite",
-  "genre": "First-Person Shooter",
+  "genre": "FPS",
   "releaseDate": "2021-12-08",
   "platform": "Xbox"
 }
 
 ###
 
-### Get game from v2
+### Récupérer un jeu (v2)
 GET http://localhost:3000/api/v2/games/1
-Accept: application/json
 
 ###
 
-### Update game in v2
+### Modifier un jeu (v2)
 PATCH http://localhost:3000/api/v2/games/1
 Content-Type: application/json
 
 {
-  "platform": "Xbox"
+  "platform": "PC"
 }
 
 ###
 
-### Delete game from v2
+### Supprimer un jeu (v2)
 DELETE http://localhost:3000/api/v2/games/4
 
 ###
 
-### ====================
-### CONTENT NEGOTIATION TESTS
-### ====================
 
-### JSON response
+### TESTS DE NÉGOCIATION DE CONTENU
+
+
+### JSON (par défaut)
 GET http://localhost:3000/api/v1/games/1
-Accept: application/json
 
 ###
 
-### XML response
+### Format XML
 GET http://localhost:3000/api/v1/games/1
 Accept: application/xml
 
 ###
 
-### YAML response
+### Format YAML
 GET http://localhost:3000/api/v1/games/1
 Accept: application/yaml
 
 ###
 
-### ====================
-### i18n (Internationalization) TESTS
-### ====================
+### TESTS INTERNATIONALISATION (i18n)
 
-### English locale
+
+### Anglais
 GET http://localhost:3000/api/v1/games
-Accept: application/json
 Accept-Language: en
 
 ###
 
-### French locale
+### Français
 GET http://localhost:3000/api/v1/games
-Accept: application/json
 Accept-Language: fr
 
 ###
 
-### Spanish locale
+### Espagnol
 GET http://localhost:3000/api/v1/games
-Accept: application/json
 Accept-Language: es
 
 ###
 
-### ====================
-### ERROR HANDLING TESTS
-### ====================
 
-### Not Found - 404
+### TESTS DE GESTION D'ERREURS
+
+
+### Erreur 404 - Ressource introuvable
 GET http://localhost:3000/api/v1/games/999999
 
 ###
 
-### Validation Error - 400 (Missing fields)
+### Erreur 400 - Champs requis manquants
 POST http://localhost:3000/api/v1/games
 Content-Type: application/json
 
@@ -306,7 +269,7 @@ Content-Type: application/json
 
 ###
 
-### Validation Error - Invalid platform
+### Erreur 400 - Plateforme invalide
 POST http://localhost:3000/api/v1/games
 Content-Type: application/json
 
@@ -317,13 +280,10 @@ Content-Type: application/json
   "platform": "InvalidPlatform"
 }
 
-###
 
-### ====================
-### HATEOAS LINKS TEST
-### ====================
+### TEST HATEOAS (Liens Hypertextes)
 
-### Get game with HATEOAS links
+
+### Récupérer un jeu avec liens HATEOAS
 GET http://localhost:3000/api/v1/games/1
-Accept: application/json
-Accept-Language: en
+Accept-Language: fr

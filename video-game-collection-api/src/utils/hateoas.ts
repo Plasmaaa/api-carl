@@ -1,3 +1,8 @@
+/**
+ * HATEOAS (Hypermedia As The Engine Of Application State) utilities
+ * Adds hypermedia links to API responses for better REST compliance
+ */
+
 export interface HATEOASLink {
     href: string;
     method: string;
@@ -11,7 +16,20 @@ export interface HATEOASResponse {
     };
 }
 
-export const addHATEOAS = (data: any, resourceType: string, resourceId: number, apiVersion: string = 'v1'): HATEOASResponse => {
+/**
+ * Adds HATEOAS links to a resource
+ * @param data - The resource data
+ * @param resourceType - Type of resource (e.g., 'game')
+ * @param resourceId - ID of the resource
+ * @param apiVersion - API version (v1, v2, etc.)
+ * @returns Resource with HATEOAS links
+ */
+export const addHATEOAS = (
+    data: any,
+    resourceType: string,
+    resourceId: number,
+    apiVersion: string = 'v1'
+): HATEOASResponse => {
     const baseUrl = `/api/${apiVersion}`;
 
     const links: { [key: string]: HATEOASLink } = {
@@ -40,51 +58,5 @@ export const addHATEOAS = (data: any, resourceType: string, resourceId: number, 
     return {
         ...data,
         _links: links,
-    };
-};
-
-export const generateHATEOASLinks = (gameId: number): object => {
-    return {
-        self: {
-            href: `/api/v1/games/${gameId}`,
-            method: 'GET'
-        },
-        update: {
-            href: `/api/v1/games/${gameId}`,
-            method: 'PATCH'
-        },
-        delete: {
-            href: `/api/v1/games/${gameId}`,
-            method: 'DELETE'
-        },
-        collection: {
-            href: `/api/v1/games`,
-            method: 'GET'
-        }
-    };
-};
-
-export const generateHATEOASLinksV2 = (gameId: number): object => {
-    return {
-        self: {
-            href: `/api/v2/games/${gameId}`,
-            method: 'GET'
-        },
-        update: {
-            href: `/api/v2/games/${gameId}`,
-            method: 'PATCH'
-        },
-        delete: {
-            href: `/api/v2/games/${gameId}`,
-            method: 'DELETE'
-        },
-        collection: {
-            href: `/api/v2/games`,
-            method: 'GET'
-        },
-        related: {
-            href: `/api/v2/games/${gameId}/related`,
-            method: 'GET'
-        }
     };
 };

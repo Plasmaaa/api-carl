@@ -6,19 +6,22 @@
  */
 
 require('dotenv').config();
-const sequelize = require('./dist/database/connection').default;
-const Game = require('./dist/models/Game').default;
+require('ts-node/register');
+
+// Load connection and models from source so build is not required before migrating.
+const sequelize = require('./src/database/connection').default;
+require('./src/models');
 
 async function migrate() {
     try {
         console.log('🔄 Starting database migration...');
-        
+
         // Sync all models
         await sequelize.sync({ alter: process.env.NODE_ENV === 'development' });
-        
+
         console.log('✓ Database migration completed successfully');
         console.log('✓ All tables synchronized');
-        
+
         process.exit(0);
     } catch (error) {
         console.error('✗ Migration failed:', error.message);

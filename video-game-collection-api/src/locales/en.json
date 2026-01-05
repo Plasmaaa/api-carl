@@ -15,8 +15,7 @@
     "missing_fields": "Missing required fields.",
     "bad_request": "Bad request.",
     "not_acceptable": "Not acceptable format."
-  }
-}
+  },
   "api": {
     "version": "API Version",
     "v1": "Version 1",

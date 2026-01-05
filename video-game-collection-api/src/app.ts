@@ -1,3 +1,12 @@
+/**
+ * Main Application Configuration
+ * Sets up Express server with:
+ * - i18next for internationalization
+ * - Content negotiation
+ * - API versioning (v1, v2)
+ * - Error handling
+ */
+
 import express, { Request, Response, NextFunction } from 'express';
 import i18next from 'i18next';
 import Backend from 'i18next-fs-backend';
@@ -7,6 +16,7 @@ import errorHandler from './middleware/errorHandler';
 import contentNegotiation from './middleware/contentNegotiation';
 import v1Routes from './routes/v1/games';
 import v2Routes from './routes/v2/games';
+import { sendFormatted } from './utils/formatters';
 
 const app = express();
 
@@ -53,10 +63,17 @@ app.use('/api/v2/games', v2Routes);
 
 // 404 handler
 app.use((req: Request, res: Response) => {
-    res.status(404).json({
-        error: i18next.t('errors.game_not_found'),
-        path: req.path,
-    });
+    const format = (req.query.format as string) || 'json';
+    res.status(404);
+    sendFormatted(
+        res,
+        {
+            error: i18next.t('errors.game_not_found'),
+            path: req.path,
+        },
+        format,
+        'error'
+    );
 });
 
 // Error handling middleware (must be last)

@@ -1,41 +1,29 @@
-import { Request, Response, NextFunction } from 'express';
-import YAML from 'yaml';
+/**
+ * Content Negotiation Middleware
+ * Detects client's preferred format from Accept header
+ * Supports: JSON, XML, YAML, CSV
+ */
 
-declare global {
-    namespace Express {
-        interface Response {
-            format?: string;
-        }
-    }
-}
+import { Request, Response, NextFunction } from 'express';
 
 export const contentNegotiation = (req: Request, res: Response, next: NextFunction) => {
     const acceptHeader = req.headers['accept'] || 'application/json';
     const acceptedFormats = acceptHeader.split(',').map(format => format.split(';')[0].trim());
 
-    // Store the preferred format
-    if (acceptedFormats.includes('application/xml')) {
-        (res as any).format = 'xml';
+    // Determine format from Accept header
+    let format = 'json'; // default
+    if (acceptedFormats.includes('text/csv')) {
+        format = 'csv';
+    } else if (acceptedFormats.includes('application/xml')) {
+        format = 'xml';
     } else if (acceptedFormats.includes('application/yaml') || acceptedFormats.includes('text/yaml')) {
-        (res as any).format = 'yaml';
-    } else {
-        (res as any).format = 'json'; // Default
+        format = 'yaml';
     }
 
-    // Override res.json to support multiple formats
-    const originalJson = res.json.bind(res);
-    (res.json as any) = function(data: any) {
-        if ((res as any).format === 'xml') {
-            res.set('Content-Type', 'application/xml');
-            // Simple XML conversion
-            const xml = '<?xml version="1.0" encoding="UTF-8"?>\n<root>' + JSON.stringify(data) + '</root>';
-            return res.send(xml);
-        } else if ((res as any).format === 'yaml') {
-            res.set('Content-Type', 'application/yaml');
-            return res.send(YAML.stringify(data));
-        }
-        return originalJson(data);
-    };
+    // Store format in query for controller to use
+    if (!req.query.format) {
+        req.query.format = format;
+    }
 
     next();
 };
